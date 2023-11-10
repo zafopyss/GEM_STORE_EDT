@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np 
 import warnings
 import tkinter as ttk 
+import datetime
 
 import tkinter as tk
 from tkinter import *
@@ -14,6 +15,10 @@ from tkinter.messagebox import showinfo
 
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
 
+#ouvrir dossier, chercher les excels, 
+#jour et semaine à rentrer par l'utilisateur 
+#donne en fin : horaires + nom 
+
 
 def select_file():
     filename = fd.askopenfilename(
@@ -22,11 +27,14 @@ def select_file():
     if filename:
         showinfo(message=filename)
         path = filename
-         
+        return path 
 
 def get_value():
     date_choosen = current_var_combobox.get()
     week_choosen = week_days_combobox.get()
+
+today = datetime.date.today() #year, month, day 
+
 
 root = Tk()
 frm = ttk.Frame(root, padding=10)
@@ -39,7 +47,7 @@ frm.grid()
 #TO-DO // voir comment gérer les électifs 
 root.title('Programme')
 
-current_var = ['23-10 au 29-10-2023', '30-10 au 05-11-2023', '06-11 au 12-11-2023'] #reprendre du programme 
+current_var = ['23-10 au 29-10-2023', '30-10 au 05-11-2023', '06-11 au 12-11-2023'] #reprendre du programme après le chargement du dossier
 current_var_grid = [2,1]
 
 week_days = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
@@ -67,7 +75,7 @@ day_to_number = {"lundi":"1","mardi":"2","mercredi":"3","jeudi":"4","vendredi":"
 planning_staff = [list(range(8,15)),list(range(14,21)),list(range(20,27)),list(range(26,33))]
 
 
-def search_dispo(date_choosen): #rajouter nom et semaine 
+def search_dispo(date_choosen): 
     
     df1 = pd.read_excel(path,indice) #multithread à faire 
 
